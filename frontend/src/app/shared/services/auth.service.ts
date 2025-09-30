@@ -19,11 +19,11 @@ export class AuthService {
   }
 
   login(credentials: { username: string; password: string }): Observable<any> {
-    return this.http.post('/auth/login', credentials);
+    return this.http.post('http://localhost:8080/auth/login', credentials);
   }
 
   register(user: User): Observable<any> {
-    return this.http.post('/auth/register', user);
+    return this.http.post('http://localhost:8080/auth/register', user);
   }
 
   setSession(token: string, user: User) {
