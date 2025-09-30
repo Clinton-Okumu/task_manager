@@ -1,0 +1,28 @@
+<nav class="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 shadow-lg">
+  <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+    <div class="flex items-center space-x-2">
+      <div class="w-8 h-8 bg-white rounded-full flex items-center justify-center">
+        <span class="text-indigo-600 font-bold text-lg">T</span>
+      </div>
+      <h1 class="text-white text-2xl font-bold">TaskFlow</h1>
+    </div>
+    <div class="hidden md:flex space-x-6">
+      <a class="text-white hover:text-yellow-300 transition duration-300 font-medium" routerLink="/login">Login</a>
+      <a class="text-white hover:text-yellow-300 transition duration-300 font-medium" routerLink="/register">Register</a>
+      <a class="text-white hover:text-yellow-300 transition duration-300 font-medium" routerLink="/tasks">Tasks</a>
+    </div>
+    <div class="md:hidden">
+      <button class="text-white focus:outline-none">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+        </svg>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<div class="min-h-screen bg-gray-50">
+  <div class="container mx-auto px-4 py-8">
+    <router-outlet />
+  </div>
+</div>
