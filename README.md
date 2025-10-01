@@ -100,15 +100,3 @@ The application uses H2 database with the following schema:
 
 - **users** table: id, username, password
 - **tasks** table: id, title, description, status, user_id (foreign key to users)
-
-## Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Run tests and ensure code quality
-5. Submit a pull request
-
-## License
-
-This project is licensed under the MIT License.
