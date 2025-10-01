@@ -18,12 +18,12 @@ public class UserService {
         this.passwordEncoder = new BCryptPasswordEncoder();
     }
 
-    public User registerUser(String username, String rawPassword) {
+    public User registerUser(String username, String email, String rawPassword) {
         if (userRepository.findByUsername(username).isPresent()) {
             throw new RuntimeException("Username already exists");
         }
         String hashedPassword = passwordEncoder.encode(rawPassword);
-        User user = new User(username, hashedPassword);
+        User user = new User(username, email, hashedPassword);
         return userRepository.save(user);
     }
 

@@ -10,19 +10,34 @@ import { Router } from '@angular/router';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './task-list.component.html',
-  styleUrl: './task-list.component.css'
 })
 export class TaskListComponent implements OnInit {
   tasks: Task[] = [];
+  loading = false;
+  errorMessage: string | null = null;
 
-  constructor(private taskService: TaskService, private authService: AuthService, private router: Router) {}
+  constructor(
+    private taskService: TaskService,
+    private authService: AuthService,
+    private router: Router,
+  ) {}
 
   ngOnInit() {
     this.loadTasks();
   }
 
   loadTasks() {
-    this.taskService.getTasks().subscribe(tasks => this.tasks = tasks);
+    this.loading = true;
+    this.taskService.getTasks().subscribe({
+      next: (tasks) => {
+        this.tasks = tasks;
+        this.loading = false;
+      },
+      error: () => {
+        this.errorMessage = 'Failed to load tasks. Please try again.';
+        this.loading = false;
+      },
+    });
   }
 
   editTask(task: Task) {
@@ -30,6 +45,7 @@ export class TaskListComponent implements OnInit {
   }
 
   deleteTask(id: number) {
+    if (!confirm('Are you sure you want to delete this task?')) return;
     this.taskService.deleteTask(id).subscribe(() => this.loadTasks());
   }
 
@@ -43,20 +59,21 @@ export class TaskListComponent implements OnInit {
   }
 
   getStatusClasses(status: string): string {
-    switch (status.toLowerCase()) {
-      case 'pending': return 'bg-yellow-100 text-yellow-800';
-      case 'in_progress': return 'bg-blue-100 text-blue-800';
-      case 'completed': return 'bg-green-100 text-green-800';
-      default: return 'bg-gray-100 text-gray-800';
-    }
+    const map: Record<string, string> = {
+      pending: 'bg-yellow-100 text-yellow-800',
+      in_progress: 'bg-blue-100 text-blue-800',
+      completed: 'bg-green-100 text-green-800',
+    };
+    return map[status.toLowerCase()] ?? 'bg-gray-100 text-gray-800';
   }
 
   getStatusDotClasses(status: string): string {
-    switch (status.toLowerCase()) {
-      case 'pending': return 'bg-yellow-400';
-      case 'in_progress': return 'bg-blue-400';
-      case 'completed': return 'bg-green-400';
-      default: return 'bg-gray-400';
-    }
+    const map: Record<string, string> = {
+      pending: 'bg-yellow-400',
+      in_progress: 'bg-blue-400',
+      completed: 'bg-green-400',
+    };
+    return map[status.toLowerCase()] ?? 'bg-gray-400';
   }
 }
+

@@ -24,10 +24,11 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody Map<String, String> request) {
         String username = request.get("username");
+        String email = request.get("email");
         String password = request.get("password");
-        User user = userService.registerUser(username, password);
+        User user = userService.registerUser(username, email, password);
         String token = jwtTokenProvider.generateToken(user.getUsername());
-        return ResponseEntity.ok(Map.of("token", token));
+        return ResponseEntity.ok(Map.of("token", token, "user", user));
     }
 
     @PostMapping("/login")
@@ -36,8 +37,9 @@ public class AuthController {
         String password = request.get("password");
         Optional<User> userOpt = userService.authenticateUser(username, password);
         if (userOpt.isPresent()) {
+            User user = userOpt.get();
             String token = jwtTokenProvider.generateToken(username);
-            return ResponseEntity.ok(Map.of("token", token));
+            return ResponseEntity.ok(Map.of("token", token, "user", user));
         }
         return ResponseEntity.status(401).body("Invalid credentials");
     }

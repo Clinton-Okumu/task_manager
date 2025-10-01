@@ -11,7 +11,7 @@ import java.util.Date;
 @Component
 public class JwtTokenProvider {
 
-    private final SecretKey jwtSecret = Keys.secretKeyFor(io.jsonwebtoken.SignatureAlgorithm.HS512);
+    private final SecretKey jwtSecret = Keys.hmacShaKeyFor("mySecretKeyForJwtTokensThatIsAtLeast32CharactersLong".getBytes());
     private final long jwtExpirationInMs = 86400000; // 1 day
 
     public String generateToken(String username) {
